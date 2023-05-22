@@ -17,15 +17,18 @@ app.get('/', (req, res) => {
 //...
 io.on('connection', (socket) => {
   console.log(socket.id);
-  /* socket.on('event_name', (data) => {
-    console.log(data.now);
-  }); */
   socket.on('disconnect', () => {
     console.log('desconectado');
   });
+  //DESDE LA INTERFAZ
   socket.on('prender_apagar_interface', (data) => {
-    console.log(data);
     io.emit('prender_apagar', data);
+  });
+
+  //DESDE EL ESP32
+  socket.on('ultrasonido', (data) => {
+    console.log(data);
+    io.emit('ultrasonido_interface', data);
   });
 });
 

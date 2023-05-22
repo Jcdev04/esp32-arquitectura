@@ -100,19 +100,28 @@ void loop() {
   socketIO.loop();
   uint64_t now = millis();
   //Ejecutar cada dos segundos
-  if (now - messageTimestamp > 2000) {
+  if (now - messageTimestamp > 1000) {
     messageTimestamp = now;
     //------------GENERAR Y ENVIAR EL EVENTO-------------------
     // creat JSON message for Socket.IO (event)
     DynamicJsonDocument doc(1024);
     JsonArray array = doc.to<JsonArray>();
     // Hint: socket.emit('event_name', ....
-    array.add("event_name");
+    array.add("ultrasonido");
 
     // add payload (parameters) for the event
     JsonObject param1 = array.createNestedObject();
-    param1["now"] = "Saludando desde el ESP32";
 
+    //ULTRASONIDO
+    long t; //timepo que demora en llegar el eco
+    long d; //distancia en centimetros
+    digitalWrite(Trigger, HIGH);
+    delayMicroseconds(10);//Enviamos un pulso de 10us
+    digitalWrite(Trigger, LOW);
+    t = pulseIn(Echo, HIGH); //obtenemos el ancho del pulso 
+    d = t/59;             //escalamos el tiempo a una distancia en cm
+    param1["distancia"] = d;
+    Serial.println(d);
     // JSON to String (serializion)
     String output;
     serializeJson(doc, output);
