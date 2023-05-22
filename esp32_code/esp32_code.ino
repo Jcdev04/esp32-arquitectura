@@ -20,8 +20,9 @@ SocketIOclient socketIO;
 //WebSocketsClient socketIO;
 #define USE_SERIAL Serial
 
-const int LED = 21;
-
+const int LED = 18;
+const int Trigger = 19;
+const int Echo = 21;
 
 //Si es necesario, agregar hexdump
 void socketIOEvent(socketIOmessageType_t type, uint8_t* payload, size_t length) {
@@ -69,7 +70,7 @@ void setup() {
     delay(1000);
   }
   //Cambiar
-  WiFiMulti.addAP("iPhone Jesús", "web-devxd");
+  WiFiMulti.addAP("BRUNO", "lucasvito");
 
   //WiFi.disconnect();
   while (WiFiMulti.run() != WL_CONNECTED) {
@@ -80,7 +81,7 @@ void setup() {
   }
   //Fin cambiar
 
-  socketIO.begin("172.20.10.2", 3000, "/socket.io/?EIO=4");
+  socketIO.begin("192.168.0.12", 3000, "/socket.io/?EIO=4");
   // event handler
   socketIO.onEvent(socketIOEvent);
   // try ever 5000 again if connection has failed
@@ -89,23 +90,22 @@ void setup() {
   //Se podría mandar un JSON con todos los valores por defecto.
   pinMode(LED, OUTPUT);
   digitalWrite(LED, LOW);
+  pinMode(Trigger, OUTPUT);
+  pinMode(Echo, INPUT);
 }
 unsigned long messageTimestamp = 0;
 
 void loop() {
   //	webSocket.loop();
   socketIO.loop();
-
   uint64_t now = millis();
   //Ejecutar cada dos segundos
   if (now - messageTimestamp > 2000) {
     messageTimestamp = now;
-
     //------------GENERAR Y ENVIAR EL EVENTO-------------------
     // creat JSON message for Socket.IO (event)
     DynamicJsonDocument doc(1024);
     JsonArray array = doc.to<JsonArray>();
-    // add evnet name
     // Hint: socket.emit('event_name', ....
     array.add("event_name");
 
@@ -137,8 +137,8 @@ void handleEvent(uint8_t* payload) {
 void led_display(String valuesJsonStr) {
   DynamicJsonDocument valuesDoc(256);
   deserializeJson(valuesDoc, valuesJsonStr);
-  String value = valuesDoc["value"];
-  if (value=="True") {
+  bool value = valuesDoc["value"].as<bool>();
+  if (value) {
     digitalWrite(LED, HIGH);
   } else {
     digitalWrite(LED, LOW);

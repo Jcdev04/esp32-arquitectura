@@ -1,14 +1,9 @@
 const socket = io();
-const buttonOn = document.getElementById('button-on');
-const buttonOff = document.getElementById('button-off');
+const habitacion1_LED1 = document.querySelector('.habitacion1_LED1');
 
 const LED = {};
 
-buttonOn.addEventListener('click', (e) => {
-  LED.value = 'True';
-  socket.emit('prender_apagar_interface', JSON.stringify(LED));
-});
-buttonOff.addEventListener('click', (e) => {
-  LED.value = 'False';
+habitacion1_LED1.addEventListener('click', (e) => {
+  LED.value = habitacion1_LED1.checked;
   socket.emit('prender_apagar_interface', JSON.stringify(LED));
 });

@@ -3,13 +3,63 @@
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="X-UA-Compatible" content="IE=7" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="css/style.css" />
-    <title>Document</title>
+
+    <!-- *Nombre App -->
+    <title>IntelliHome</title>
+    <link rel="stylesheet" href="css/estilos.css" />
+    <link rel="stylesheet" href="css/normalize.css" />
+
+    <!-- * Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- * Icons -->
+    <script
+      src="https://kit.fontawesome.com/745852fa0a.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- * Icono Navegador -->
+    <link rel="icon" href="" sizes="32x32" />
+    <link rel="icon" href="" sizes="192x192" />
+    <link rel="apple-touch-icon" href="" />
   </head>
   <body>
-    <button id="button-on">Prender</button>
-    <button id="button-off">Apagar</button>
+    <!-- ! SECCION PORTADA -->
+    <section class="contenedor">
+      <div class="card">
+        <h2 class="card__titulo">Habitación 1</h2>
+        <div class="card__contenido">
+          <div class="card__elemento">
+            <p class="card__texto">Foco 1</p>
+            <!-- Rounded switch -->
+            <div class="toggle-switch">
+              <input
+                class="toggle-input habitacion1_LED1"
+                id="toggle"
+                type="checkbox"
+              />
+              <label class="toggle-label" for="toggle"></label>
+            </div>
+          </div>
+
+          <!-- div class="card__elemento">
+            <p class="card__texto">Foco2</p>
+             Rounded switch
+             <label class="switch">
+              <input type="checkbox" />
+              <span class="slider round"></span>
+            </label>
+          </div> -->
+        </div>
+      </div>
+    </section>
     <script src="/socket.io/socket.io.js"></script>
     <script src="./js/client.js"></script>
   </body>
