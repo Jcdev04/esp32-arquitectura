@@ -57,6 +57,7 @@ void socketIOEvent(socketIOmessageType_t type, uint8_t* payload, size_t length) 
 }
 
 void setup() {
+  
   USE_SERIAL.begin(115200);
   delay(10);
   //Serial.setDebugOutput(true);
@@ -70,7 +71,7 @@ void setup() {
     delay(1000);
   }
   //Cambiar
-  WiFiMulti.addAP("BRUNO", "lucasvito");
+  WiFiMulti.addAP("UPN_ESTUDIANTES", "H@zLoCorrectoUPN");
 
   //WiFi.disconnect();
   while (WiFiMulti.run() != WL_CONNECTED) {
@@ -81,7 +82,7 @@ void setup() {
   }
   //Fin cambiar
 
-  socketIO.begin("192.168.0.12", 3000, "/socket.io/?EIO=4");
+  socketIO.begin("10.253.0.219", 3000, "/socket.io/?EIO=4");
   // event handler
   socketIO.onEvent(socketIOEvent);
   // try ever 5000 again if connection has failed

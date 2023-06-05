@@ -1,0 +1,75 @@
+/* TODO VARIABLES */
+:root {
+  /* * Estilos de los textos */
+  --h1: clamp(32px, calc(25vw / 8), 45px);
+  --h2: clamp(24px, 2.5vw, 36px);
+  --h3: clamp(23px, 2.5vw, 28px);
+  --p: clamp(18px, 1.53vw, 22px);
+
+  /* * Estilos de Colores */
+  --colorPrimario: #;
+  --colorSecundario: #;
+  --colorTerciario: #;
+
+  --negro: #1f1f1f;
+  --plomo: #8d8d8d;
+  --gris: #e9e9e9;
+  --blanco: #f4f4f4;
+  --anaranjado: #f59e0b;
+  --amarillo: #ffd233;
+  --azul: #60a5fa;
+  --degradado1: linear-gradient(
+    180deg,
+    rgba(251, 191, 36, 1) 0%,
+    rgba(245, 158, 11, 1) 100%
+  );
+
+  /* * otro */
+  --colum1: calc(var(--colum1-2) - 20px);
+  --colum1-2: calc(100vw / 8);
+}
+
+/* TODO ESTILOS GENERALES */
+* {
+  font-family: "Poppins", sans-serif;
+  font-size: var(--p);
+  font-weight: 400;
+  color: var(--negro);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--blanco);
+}
+h1 {
+  font-size: 40px;
+  font-weight: 700;
+  margin-top: 0;
+}
+h2 {
+  font-size: var(--h2);
+  text-align: center;
+}
+h3 {
+  font-size: var(--h3);
+}
+section {
+  padding: clamp(70px, 6.94vw, 120px) var(--colum1); /* 100px */
+  padding-bottom: clamp(90px, 8.33vw, 140px); /* 120px */
+}
+a {
+  text-decoration: none;
+}
+img {
+  object-fit: contain;
+}
+nav {
+  list-style: none;
+}
+ol,
+ul {
+  margin-left: 1em;
+}

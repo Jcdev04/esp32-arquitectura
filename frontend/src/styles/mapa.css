@@ -1,0 +1,251 @@
+/* ! --------------------------------------------------------------------------------------------------------------------------------------------
+!                                                              SECCION MAPA
+! --------------------------------------------------------------------------------------------------------------------------------------------- */
+/* ?  --------------------------------------------------------- VERSION PC -------------------------------------------------------------------- */
+.mapa {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  height: 100vh;
+  padding: 40px;
+}
+.mapaResponsive {
+  display: none;
+}
+/* *Asignar sus filas */
+.mapa__superior {
+  grid-row: 1/2;
+}
+.casa {
+  grid-row: 2/3;
+}
+.mapa__inferior {
+  grid-row: 3/4;
+}
+
+/* * Superior */
+.mapa__h1 {
+  display: inline-block;
+  background-image: linear-gradient(
+    to right,
+    var(--anaranjado),
+    var(--amarillo)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* * Inferior */
+.mapa__inferior {
+  display: flex;
+  justify-content: end;
+}
+.mapa__camara {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: var(--degradado1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+/* * Casa */
+.casa {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.plano {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+.plano__superior {
+  display: flex;
+  justify-content: center;
+}
+
+/* * Tiempo */
+.tiempo {
+  padding: 8px 30px;
+  border-radius: 40px;
+  color: var(--azul);
+  font-weight: 600;
+  box-shadow: 0 2px 5px var(--plomo);
+}
+
+/* * Plano */
+.plano__inferior {
+  display: grid;
+  grid-template-columns: 3fr 1fr 2fr;
+  grid-template-rows: 1fr 1fr 2fr;
+
+  width: clamp(420px, 73.548vw, 720px);
+  height: clamp(280px, 49.032vw, 480px);
+}
+.casa__cuarto {
+  border: 2px solid var(--negro);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.cochera {
+  grid-column: 1/2;
+  grid-row: 1/3;
+}
+.sala {
+  grid-column: 1/2;
+  grid-row: 3/4;
+  border-top: none;
+  border-right: none;
+}
+.habitacion {
+  grid-column: 2/4;
+  grid-row: 1/2;
+  border-left: none;
+}
+.bano {
+  grid-column: 3/4;
+  grid-row: 2/3;
+  border-bottom: none;
+  border-top: none;
+}
+.cocina {
+  grid-column: 2/4;
+  grid-row: 3/4;
+}
+
+/* * Puertas y ventanas */
+.casa__puerta-garaje {
+  position: absolute;
+  height: 60%;
+  width: 16px;
+  background-color: var(--plomo);
+  left: -8px;
+}
+.casa__puertas {
+  position: absolute;
+  height: 100%;
+  left: -4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.casa__puerta {
+  width: 8px;
+  height: 30%;
+  background-color: #b5b5b5;
+}
+.casa__ventana {
+  width: 8px;
+  height: 30%;
+  background-color: #dadada;
+}
+.casa__puerta-2 {
+  position: absolute;
+  right: -5px;
+  z-index: 2;
+}
+.casa__puerta-3 {
+  position: absolute;
+  height: 8px;
+  width: 20%;
+  top: -4px;
+  right: 15px;
+}
+.casa__puerta-4 {
+  position: absolute;
+  height: 8px;
+  width: 20%;
+  top: -4px;
+  left: 6%;
+}
+.casa__puerta-5 {
+  position: absolute;
+  height: 60%;
+  left: -4px;
+}
+.casa__puerta-6 {
+  position: absolute;
+  height: 8px;
+  width: 20%;
+  bottom: -4px;
+  left: 6%;
+}
+.casa__texto {
+  transform: rotate(90deg);
+  position: absolute;
+  left: -95px;
+  font-size: clamp(13px, 2.194vw, 19px);
+}
+.casa__texto-2 {
+  left: -75px;
+  top: 22%;
+}
+.casa__texto-3 {
+  left: -75px;
+  bottom: 22%;
+}
+
+/* ?  -------------------------------------------------------VERSION MOBILE ------------------------------------------------------------------ */
+@media screen and (max-width: 730px) {
+  .casa__texto {
+    left: -78px;
+  }
+  .casa__texto-2,
+  .casa__texto-3 {
+    left: -60px;
+  }
+}
+
+@media screen and (max-width: 565px) {
+  .mapa {
+    display: none;
+  }
+  .mapaResponsive {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    height: 100vh;
+    padding: 30px;
+    padding-top: 50px;
+  }
+  .superior {
+    text-align: center;
+  }
+  .mapa__h1 {
+    font-size: var(--h1);
+  }
+  .mapa__inferior {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 100%;
+  }
+
+  .mapa__camara {
+    width: 75px;
+    height: 75px;
+  }
+  .mapa__img {
+    width: 70%;
+  }
+
+  .mapaResponsive__contenedor {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    padding-top: 20px;
+    padding-bottom: 40px;
+  }
+
+  .mapaResponsive__card {
+    box-shadow: 0 2px 5px var(--plomo);
+    border-radius: 20px;
+    padding: 20px 30px;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+  }
+}
