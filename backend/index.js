@@ -7,20 +7,15 @@ const io = require("socket.io")(http, {
   },
 });
 const path = require("path");
-
 const port = 3000;
-
 /* app.use(express.static(path.join('src/view')));
 
 //Es para enviar el contenido que se mostrará en esta ruta
 app.get('/', (req, res) => {
   res.sendFile('src/view/index.html');
 }); */
-//*Mandar otras rutas
-//...
-//...
 app.get("/", (req, res) => {
-  res.send("hola mundo");
+  res.send("");
 });
 io.on("connection", (socket) => {
   console.log(socket.id);
@@ -31,13 +26,20 @@ io.on("connection", (socket) => {
   socket.on("prender_apagar_interface", (data) => {
     io.emit("prender_apagar", data);
   });
-  socket.on("hola", (mensaje) => {
-    console.log(mensaje);
+  socket.on("handle_puerta", (data) => {
+    io.emit("handle_puerta_cochera", data);
   });
+  socket.on("handle_seguridad", (data) => {
+    io.emit("handle_seguridad_valor", data);
+  });
+  socket.on("activacion_alarma", (data) => {
+    io.emit("handle_alarma", data);
+  });
+
   //DESDE EL ESP32
-  socket.on("ultrasonido", (data) => {
+  socket.on("value_sensores", (data) => {
     console.log(data);
-    io.emit("ultrasonido_interface", data);
+    io.emit("valores_sensores", data);
   });
 });
 

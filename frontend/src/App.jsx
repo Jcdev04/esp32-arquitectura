@@ -13,6 +13,7 @@ import CocinaComedor from "./pages/ambientes/cocina-comedor";
 function App() {
   const [isConnected, setIsConnected] = useState(socket.connected);
   const [fooEvents, setFooEvents] = useState([]);
+  const [alarma, setAlarma] = useState(false);
 
   useEffect(() => {
     function onConnect() {
@@ -34,19 +35,6 @@ function App() {
       socket.off("foo", onFooEvent);
     };
   }, []);
-
-  const emitirEvento = () => {
-    try {
-      const value = {
-        prenderLed: true,
-      };
-      socket.emit("hola", JSON.stringify(value));
-      console.log(value);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   return (
     <>
       <BrowserRouter>
@@ -71,7 +59,11 @@ function App() {
             <Route
               path="sala"
               element={
-                <Ambiente AmbienteContenido={<Sala />} nombre={"Sala"} />
+                <Ambiente
+                  AmbienteContenido={<Sala setAlarma={setAlarma} />}
+                  nombre={"Sala"}
+                  alarma={alarma}
+                />
               }
             />
             <Route

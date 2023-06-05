@@ -12,11 +12,11 @@ import { socket } from "../js/socket.js";
 function Principal() {
   const [temperatura, setTemperatura] = useState(0);
 
-  /*useEffect(() => {
-     socket.on("ultrasonido_interface", (data) => {
-      setTemperatura(data.distancia);
-    }); 
-  }, []);*/
+  useEffect(() => {
+    socket.on("valores_sensores", (data) => {
+      setTemperatura(data.temperatura);
+    });
+  }, []);
   return (
     <>
       {/* <!-- ! SECCION MAPA--> */}

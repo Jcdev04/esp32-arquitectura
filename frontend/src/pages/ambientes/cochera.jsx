@@ -4,7 +4,7 @@ import { socket } from "../../js/socket";
 function Cochera() {
   const [distancia, setDistancia] = useState(0);
   useEffect(() => {
-    socket.on("ultrasonido_interface", (data) => {
+    socket.on("valores_sensores", (data) => {
       setDistancia(data.distancia);
     });
   }, []);
@@ -13,9 +13,12 @@ function Cochera() {
     const LED = {};
     LED.value = value;
     socket.emit("prender_apagar_interface", JSON.stringify(LED));
-    console.log(LED);
   };
-
+  const handlePuertaCochera = (value) => {
+    const PUERTA = {};
+    PUERTA.value = value;
+    socket.emit("handle_puerta", JSON.stringify(PUERTA));
+  };
   return (
     <>
       <div className="card__elemento">
@@ -26,6 +29,7 @@ function Cochera() {
             className="toggle-input cochera__puerta"
             id="toggle-cochera"
             type="checkbox"
+            onChange={(e) => handlePuertaCochera(e.target.checked)}
           />
           <label className="toggle-label" htmlFor="toggle-cochera"></label>
         </div>

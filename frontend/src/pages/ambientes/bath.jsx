@@ -14,11 +14,6 @@ function Bath() {
           <label className="toggle-label" htmlFor="toggle-foco"></label>
         </div>
       </div>
-
-      <div className="card__elemento">
-        <p className="card__texto">Distancia:</p>
-        <p id="distancia__ultrasonido">0 cm</p>
-      </div>
     </>
   );
 }
