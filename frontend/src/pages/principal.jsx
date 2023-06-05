@@ -11,10 +11,12 @@ import { socket } from "../js/socket.js";
 
 function Principal() {
   const [temperatura, setTemperatura] = useState(0);
+  const [humedad, setHumedad] = useState(0);
 
   useEffect(() => {
     socket.on("valores_sensores", (data) => {
       setTemperatura(data.temperatura);
+      setHumedad(data.humedad);
     });
   }, []);
   return (
@@ -28,7 +30,9 @@ function Principal() {
         <div className="casa">
           <div className="plano">
             <div className="plano__superior">
-              <div className="tiempo">{temperatura} °C</div>
+              <div className="tiempo">
+                {temperatura} °C y {humedad}% humedad
+              </div>
             </div>
 
             <div className="plano__inferior">

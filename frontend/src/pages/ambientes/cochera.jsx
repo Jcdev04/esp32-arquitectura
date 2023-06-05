@@ -12,7 +12,8 @@ function Cochera() {
   const handleFoco = (value) => {
     const LED = {};
     LED.value = value;
-    socket.emit("prender_apagar_interface", JSON.stringify(LED));
+    LED.habitacion = 1;
+    socket.emit("handle_foco", JSON.stringify(LED));
   };
   const handlePuertaCochera = (value) => {
     const PUERTA = {};

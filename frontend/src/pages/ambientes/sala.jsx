@@ -29,7 +29,12 @@ function Sala({ setAlarma }) {
     setSeguridad(value);
     socket.emit("handle_seguridad", JSON.stringify(SEGURIDAD));
   };
-
+  const handleFoco = (value) => {
+    const LED = {};
+    LED.value = value;
+    LED.habitacion = 4;
+    socket.emit("handle_foco", JSON.stringify(LED));
+  };
   return (
     <>
       <div className="card__elemento">
@@ -40,6 +45,7 @@ function Sala({ setAlarma }) {
             className="toggle-input cochera__puerta"
             id="toggle-sala"
             type="checkbox"
+            onChange={(e) => handleFoco(e.target.checked)}
           />
           <label className="toggle-label" htmlFor="toggle-sala"></label>
         </div>

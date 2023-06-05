@@ -23,8 +23,9 @@ io.on("connection", (socket) => {
     console.log("desconectado");
   });
   //DESDE LA INTERFAZ
-  socket.on("prender_apagar_interface", (data) => {
-    io.emit("prender_apagar", data);
+  socket.on("handle_foco", (data) => {
+    io.emit("handle_foco_valor", data);
+    console.log(data);
   });
   socket.on("handle_puerta", (data) => {
     io.emit("handle_puerta_cochera", data);

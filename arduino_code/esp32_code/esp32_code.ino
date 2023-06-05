@@ -32,7 +32,11 @@ WebSocketsClient webSocket;
 SocketIOclient socketIO;
 //WebSocketsClient socketIO;
 
-const int LED = 18;
+const int foco_cochera = 18;
+const int foco_habitacion = 4;
+const int foco_bath = 2;
+const int foco_sala = 15;
+const int foco_cocina = 5;
 const int Trigger = 19;
 const int Echo = 21;
 const int inputPin = 32; // for ESP8266 microcontroller
@@ -110,8 +114,12 @@ void setup() {
   // try ever 5000 again if connection has failed
   //webSocket.setReconnectInterval(3000);
   //Se podría mandar un JSON con todos los valores por defecto.
-  pinMode(LED, OUTPUT);
-  digitalWrite(LED, LOW);
+  pinMode(foco_cochera, OUTPUT);
+  pinMode(foco_habitacion, OUTPUT);
+  pinMode(foco_bath, OUTPUT);
+  pinMode(foco_sala, OUTPUT);
+  pinMode(foco_cocina, OUTPUT);
+  digitalWrite(foco_cochera, LOW);
   pinMode(Trigger, OUTPUT);
   pinMode(Echo, INPUT);
 }
@@ -185,9 +193,10 @@ void handleEvent(uint8_t* payload) {
   String eventName = doc[0];
   // Get the value pairs
   String valuesJsonStr = doc[1];
-  if(eventName=="prender_apagar"){
+  if(eventName=="handle_foco_valor"){
     led_display(valuesJsonStr);
-  }else if(eventName=="handle_puerta_cochera"){
+  }
+  else if(eventName=="handle_puerta_cochera"){
     puerta_cochera(valuesJsonStr);
   }else if(eventName=="handle_seguridad_valor"){
     seguridad(valuesJsonStr);
@@ -201,10 +210,43 @@ void led_display(String valuesJsonStr) {
   DynamicJsonDocument valuesDoc(256);
   deserializeJson(valuesDoc, valuesJsonStr);
   bool value = valuesDoc["value"].as<bool>();
+  int habitacion = valuesDoc["habitacion"].as<int>();
   if (value) {
-    digitalWrite(LED, HIGH);
+    switch(habitacion){
+    case 1:
+        digitalWrite(foco_cochera, HIGH);
+        break;
+    case 2:
+        digitalWrite(foco_habitacion, HIGH);
+        break;
+    case 3:
+        digitalWrite(foco_bath, HIGH);
+        break;
+    case 4:
+        digitalWrite(foco_sala, HIGH);
+        break;
+    case 5:
+        digitalWrite(foco_cocina, HIGH);
+        break;
+    }
   } else {
-    digitalWrite(LED, LOW);
+     switch(habitacion){
+    case 1:
+        digitalWrite(foco_cochera, LOW);
+        break;
+    case 2:
+        digitalWrite(foco_habitacion, LOW);
+        break;
+    case 3:
+        digitalWrite(foco_bath, LOW);
+        break;
+    case 4:
+        digitalWrite(foco_sala, LOW);
+        break;
+    case 5:
+        digitalWrite(foco_cocina, LOW);
+        break;
+    }
   }
 }
 ///////////////////////////////////////////////SERVOMOTOR

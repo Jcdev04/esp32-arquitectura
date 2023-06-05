@@ -1,5 +1,13 @@
 import React from "react";
+import { socket } from "../../js/socket";
+
 function Bath() {
+  const handleFoco = (value) => {
+    const LED = {};
+    LED.value = value;
+    LED.habitacion = 3;
+    socket.emit("handle_foco", JSON.stringify(LED));
+  };
   return (
     <>
       <div className="card__elemento">
@@ -10,6 +18,7 @@ function Bath() {
             className="toggle-input habitacion1_LED1"
             id="toggle-foco"
             type="checkbox"
+            onChange={(e) => handleFoco(e.target.checked)}
           />
           <label className="toggle-label" htmlFor="toggle-foco"></label>
         </div>
