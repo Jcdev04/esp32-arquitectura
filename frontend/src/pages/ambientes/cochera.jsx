@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
 import { socket } from "../../js/socket";
+import Toggle from "../../components/toggle";
 
 function Cochera() {
   const [distancia, setDistancia] = useState(0);
+  const [monitorear, setMonitorear] = useState(false);
   useEffect(() => {
     socket.on("valores_sensores", (data) => {
-      setDistancia(data.distancia);
+      if (data.distancia != null) return setDistancia(data.distancia);
+      setDistancia(0);
     });
   }, []);
 
-  const handleFoco = (value) => {
+  const handleFocoCochera = (value) => {
     const LED = {};
     LED.value = value;
     LED.habitacion = 1;
@@ -20,37 +23,40 @@ function Cochera() {
     PUERTA.value = value;
     socket.emit("handle_puerta", JSON.stringify(PUERTA));
   };
+  const handleMonitorearDistancia = (value) => {
+    setMonitorear(value);
+    const MONITOREAR = {};
+    MONITOREAR.value = value;
+    console.log(MONITOREAR);
+    socket.emit("value_alarma_auto", JSON.stringify(MONITOREAR));
+  };
   return (
     <>
+      <Toggle
+        handleFoco={handlePuertaCochera}
+        nombreToggle="Puerta cochera"
+        idToggle="togle_puerta_cochera"
+      />
+      <Toggle
+        handleFoco={handleFocoCochera}
+        nombreToggle="Foco cochera"
+        idToggle="togle_foco_cochera"
+      />
+      <Toggle
+        handleFoco={handleMonitorearDistancia}
+        nombreToggle="Monitorear distancia"
+        idToggle="togle_monitoriar_distancia"
+      />
       <div className="card__elemento">
-        <p className="card__texto">Puerta cochera</p>
-        {/* <!-- Rounded switch -->   */}
-        <div className="toggle-switch">
-          <input
-            className="toggle-input cochera__puerta"
-            id="toggle-cochera"
-            type="checkbox"
-            onChange={(e) => handlePuertaCochera(e.target.checked)}
-          />
-          <label className="toggle-label" htmlFor="toggle-cochera"></label>
-        </div>
-      </div>
-      <div className="card__elemento">
-        <p className="card__texto">Foco</p>
-        {/* <!-- Rounded switch -->   */}
-        <div className="toggle-switch">
-          <input
-            className="toggle-input cochera__puerta"
-            id="toggle-foco"
-            type="checkbox"
-            onChange={(e) => handleFoco(e.target.checked)}
-          />
-          <label className="toggle-label" htmlFor="toggle-foco"></label>
-        </div>
-      </div>
-      <div className="card__elemento">
-        <p className="card__texto">Distancia:</p>
-        <p id="distancia__ultrasonido">{distancia} cm</p>
+        <p className="card__texto" style={{ color: !monitorear && "#bababa" }}>
+          Distancia:
+        </p>
+        <p
+          id="distancia__ultrasonido"
+          style={{ color: !monitorear && "#bababa" }}
+        >
+          {distancia} cm
+        </p>
       </div>
     </>
   );

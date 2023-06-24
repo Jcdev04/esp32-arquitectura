@@ -1,28 +1,21 @@
 import React from "react";
 import { socket } from "../../js/socket";
-
+import Toggle from "../../components/toggle";
 function Bath() {
-  const handleFoco = (value) => {
+  const handleFocoBath = (value) => {
     const LED = {};
     LED.value = value;
     LED.habitacion = 3;
     socket.emit("handle_foco", JSON.stringify(LED));
+    console.log(LED);
   };
   return (
     <>
-      <div className="card__elemento">
-        <p className="card__texto">Foco</p>
-        {/* <!-- Rounded switch -->   */}
-        <div className="toggle-switch">
-          <input
-            className="toggle-input habitacion1_LED1"
-            id="toggle-foco"
-            type="checkbox"
-            onChange={(e) => handleFoco(e.target.checked)}
-          />
-          <label className="toggle-label" htmlFor="toggle-foco"></label>
-        </div>
-      </div>
+      <Toggle
+        handleFoco={handleFocoBath}
+        nombreToggle={"Foco baño"}
+        idToggle={"toggle_foco_bath"}
+      />
     </>
   );
 }

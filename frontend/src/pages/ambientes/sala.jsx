@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { socket } from "../../js/socket.js";
+import Toggle from "../../components/toggle.jsx";
 
 function Sala({ setAlarma }) {
   const [seguridad, setSeguridad] = useState(false);
@@ -14,7 +15,6 @@ function Sala({ setAlarma }) {
       }
     });
   }, []);
-
   const desactivarAlarma = (ALARM) => {
     setTimeout(() => {
       setAlarma(false);
@@ -29,7 +29,7 @@ function Sala({ setAlarma }) {
     setSeguridad(value);
     socket.emit("handle_seguridad", JSON.stringify(SEGURIDAD));
   };
-  const handleFoco = (value) => {
+  const handleFocoSala = (value) => {
     const LED = {};
     LED.value = value;
     LED.habitacion = 4;
@@ -37,33 +37,16 @@ function Sala({ setAlarma }) {
   };
   return (
     <>
-      <div className="card__elemento">
-        <p className="card__texto">Foco</p>
-        {/* <!-- Rounded switch -->   */}
-        <div className="toggle-switch">
-          <input
-            className="toggle-input cochera__puerta"
-            id="toggle-sala"
-            type="checkbox"
-            onChange={(e) => handleFoco(e.target.checked)}
-          />
-          <label className="toggle-label" htmlFor="toggle-sala"></label>
-        </div>
-      </div>
-
-      <div className="card__elemento">
-        <p className="card__texto">Activar seguridad</p>
-        {/* <!-- Rounded switch -->   */}
-        <div className="toggle-switch">
-          <input
-            className="toggle-input cochera__puerta"
-            id="toggle-seguridad"
-            type="checkbox"
-            onChange={(e) => handleSeguridad(e.target.checked)}
-          />
-          <label className="toggle-label" htmlFor="toggle-seguridad"></label>
-        </div>
-      </div>
+      <Toggle
+        handleFoco={handleFocoSala}
+        nombreToggle="Foco sala"
+        idToggle="toggle_foco_sala"
+      />
+      <Toggle
+        handleFoco={handleSeguridad}
+        nombreToggle="Activar seguridad"
+        idToggle="toggle_seguridad"
+      />
       {seguridad && (
         <div className="card__elemento">
           <p className="card__texto" style={{ color: "#740808" }}>

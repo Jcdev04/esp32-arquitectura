@@ -15,7 +15,7 @@ app.get('/', (req, res) => {
   res.sendFile('src/view/index.html');
 }); */
 app.get("/", (req, res) => {
-  res.send("");
+  res.send("hola mundo");
 });
 io.on("connection", (socket) => {
   console.log(socket.id);

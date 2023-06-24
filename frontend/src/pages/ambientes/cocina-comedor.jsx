@@ -1,8 +1,8 @@
 import React from "react";
 import { socket } from "../../js/socket";
-
+import Toggle from "../../components/toggle";
 function CocinaComedor() {
-  const handleFoco = (value) => {
+  const handleFocoCocina = (value) => {
     const LED = {};
     LED.value = value;
     LED.habitacion = 5;
@@ -10,19 +10,11 @@ function CocinaComedor() {
   };
   return (
     <>
-      <div className="card__elemento">
-        <p className="card__texto">Foco</p>
-        {/* <!-- Rounded switch -->   */}
-        <div className="toggle-switch">
-          <input
-            className="toggle-input cochera__puerta"
-            id="toggle-comedor"
-            type="checkbox"
-            onChange={(e) => handleFoco(e.target.checked)}
-          />
-          <label className="toggle-label" htmlFor="toggle-comedor"></label>
-        </div>
-      </div>
+      <Toggle
+        handleFoco={handleFocoCocina}
+        nombreToggle="Foco comedor"
+        idToggle="toggle_foco_comedor"
+      />
     </>
   );
 }
