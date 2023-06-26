@@ -2,9 +2,13 @@ import React from "react";
 import "../styles/habitaciones.css";
 import { Link } from "react-router-dom";
 import flechaIzquierda from "../assets/img/arrow-left-circle.svg";
+import Button from "./btn-retroceder";
 function Ambiente({ AmbienteContenido, nombre, alarma }) {
   return (
     <section className="contenedor">
+      <Link to="/">
+        <Button></Button>
+      </Link>
       <div className="card">
         <button className="button__regresar">
           <img

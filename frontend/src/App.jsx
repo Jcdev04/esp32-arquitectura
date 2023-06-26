@@ -15,7 +15,16 @@ function App() {
   const [isConnected, setIsConnected] = useState(socket.connected);
   const [fooEvents, setFooEvents] = useState([]);
   const [alarma, setAlarma] = useState(false);
-
+  //estados globales
+  const [habitacion, setHabitacion] = useState({ led: false });
+  const [bath, setBath] = useState({ led: false });
+  const [sala, setSala] = useState({ led: false, seguridad: false });
+  const [cochera, setCochera] = useState({
+    led: false,
+    puerta: false,
+    monitorear: false,
+  });
+  const [cocina, setCocina] = useState({ led: false });
   useEffect(() => {
     function onConnect() {
       setIsConnected(true);
@@ -46,7 +55,12 @@ function App() {
               path="habitacion"
               element={
                 <Ambiente
-                  AmbienteContenido={<Habitacion />}
+                  AmbienteContenido={
+                    <Habitacion
+                      estados={habitacion}
+                      setEstados={setHabitacion}
+                    />
+                  }
                   nombre={"Habitación"}
                 />
               }
@@ -54,14 +68,25 @@ function App() {
             <Route
               path="bath"
               element={
-                <Ambiente AmbienteContenido={<Bath />} nombre={"Baño"} />
+                <Ambiente
+                  AmbienteContenido={
+                    <Bath estados={bath} setEstados={setBath} />
+                  }
+                  nombre={"Baño"}
+                />
               }
             />
             <Route
               path="sala"
               element={
                 <Ambiente
-                  AmbienteContenido={<Sala setAlarma={setAlarma} />}
+                  AmbienteContenido={
+                    <Sala
+                      setAlarma={setAlarma}
+                      estados={sala}
+                      setEstados={setSala}
+                    />
+                  }
                   nombre={"Sala"}
                   alarma={alarma}
                 />
@@ -70,14 +95,21 @@ function App() {
             <Route
               path="cochera"
               element={
-                <Ambiente AmbienteContenido={<Cochera />} nombre={"Cochera"} />
+                <Ambiente
+                  AmbienteContenido={
+                    <Cochera estados={cochera} setEstados={setCochera} />
+                  }
+                  nombre={"Cochera"}
+                />
               }
             />
             <Route
               path="cocina-comedor"
               element={
                 <Ambiente
-                  AmbienteContenido={<CocinaComedor />}
+                  AmbienteContenido={
+                    <CocinaComedor estados={cocina} setEstados={setCocina} />
+                  }
                   nombre={"Cocina y Comedor"}
                 />
               }
