@@ -37,6 +37,9 @@ io.on("connection", (socket) => {
     io.emit("handle_alarma", data);
   });
 
+  socket.on("value_alarma_auto", (data) => {
+    io.emit("handle_alarma_auto", data);
+  });
   //DESDE EL ESP32
   socket.on("value_sensores", (data) => {
     console.log(data);

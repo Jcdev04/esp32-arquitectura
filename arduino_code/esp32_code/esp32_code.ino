@@ -14,36 +14,41 @@
 #endif
 #define DEBUG_ESP_PORT Serial
 #define USE_SERIAL Serial
-#define trig 19 // Pin del trigger del sensor ultrasónico
-#define echo 21    // Pin del echo del sensor ultrasónico
-#define Buzzer 23 // Pin del buzzer
 
 int time_ms = 60; //tiempo en milisegundos
 int tiempo = 0; // //tiempo que demora en llegar el eco
 int distancia = 0; //distancia en centimetros
 
-#define DHTPIN 22
-#define DHTTYPE DHT11
-
-DHT dht(DHTPIN, DHTTYPE);
 
 WiFiMulti WiFiMulti;
 WebSocketsClient webSocket;
 SocketIOclient socketIO;
 //WebSocketsClient socketIO;
-
-const int foco_cochera = 18;
+//TEMPERATURA
+#define DHTPIN 19
+#define DHTTYPE DHT11
+DHT dht(DHTPIN, DHTTYPE);
+//ULTRASONIDO
+const int Trigger = 22;
+const int Echo = 21;
+//BUZZER
+#define Buzzer 23 // Pin del buzzer
+//FOCOS
+const int foco_cochera = 32;
 const int foco_habitacion = 4;
 const int foco_bath = 2;
 const int foco_sala = 15;
 const int foco_cocina = 5;
-const int Trigger = 19;
-const int Echo = 21;
-const int inputPin = 32; // for ESP8266 microcontroller
+
+//PIR
+const int pinPir = 18; // for ESP8266 microcontroller
+//SERVO
+const int pinServo=13;
+
 Servo servo;
-int pinServo=13;
 int grados = 0;
 bool security = false;
+bool alarmaAuto = false;
 //Si es necesario, agregar hexdump
 void socketIOEvent(socketIOmessageType_t type, uint8_t* payload, size_t length) {
   switch (type) {
@@ -82,10 +87,12 @@ void setup() {
   //Humedad y temperatura
   dht.begin();
   //PIR
-  pinMode(inputPin, INPUT);
+  pinMode(pinPir, INPUT);
   //Servo Motor
   servo.attach(pinServo, 500, 2500);
   servo.write(grados);
+  //BUZZER
+  pinMode(Buzzer, OUTPUT); // Pin del Buzzer como salida.
   //Serial.setDebugOutput(true);
   USE_SERIAL.setDebugOutput(true);
   USE_SERIAL.println();
@@ -98,6 +105,7 @@ void setup() {
   }
   //Cambiar
   WiFiMulti.addAP("BRUNO", "lucasvito");
+  //WiFiMulti.addAP("UPN_ESTUDIANTES", "H@zLoCorrectoUPN");
 
   //WiFi.disconnect();
   while (WiFiMulti.run() != WL_CONNECTED) {
@@ -108,7 +116,9 @@ void setup() {
   }
   //Fin cambiar
 
-  socketIO.begin("192.168.0.22", 3000, "/socket.io/?EIO=4");
+  socketIO.begin("192.168.0.20", 3000, "/socket.io/?EIO=4");
+  //socketIO.begin("10.253.4.205", 3000, "/socket.io/?EIO=4");
+  
   // event handler
   socketIO.onEvent(socketIOEvent);
   // try ever 5000 again if connection has failed
@@ -144,7 +154,7 @@ void loop() {
 
     /////////////////////////////////////PIR
     if(security){  
-      int val = digitalRead(inputPin);
+      int val = digitalRead(pinPir);
       if (val == HIGH) {
         param1["movimiento"] = true;
       }
@@ -154,7 +164,12 @@ void loop() {
       Serial.println(val);
     }
     //////////////////////////////////////ULTRASONIDO
-    param1["distancia"] = ultrasonido();
+    int distancia = 0;
+    if(alarmaAuto){
+      distancia = ultrasonido();
+      param1["distancia"] = distancia;
+    }
+    prenderBuzzer(alarmaAuto,distancia);
     /////////////////////////////////////TEMPERATURA Y HUMEDAD 
     float h = dht.readHumidity();
     float t = dht.readTemperature();
@@ -172,9 +187,9 @@ void loop() {
   }
 }
 
-long ultrasonido(){
-    long t; //tiempo en llegar el eco
-    long d; //distancia en centimetros
+int ultrasonido(){
+    int t; //tiempo en llegar el eco
+    int d; //distancia en centimetros
     digitalWrite(Trigger, HIGH);
     delayMicroseconds(10);//pulso de 10us
     digitalWrite(Trigger, LOW);
@@ -200,8 +215,8 @@ void handleEvent(uint8_t* payload) {
     puerta_cochera(valuesJsonStr);
   }else if(eventName=="handle_seguridad_valor"){
     seguridad(valuesJsonStr);
-  }else if(eventName="handle_alarma"){
-    alarma(valuesJsonStr);
+  }else if(eventName=="handle_alarma_auto"){
+    handleAlarmaAuto(valuesJsonStr);
   }
 }
 ////////////////////////////////////////////////LEDS
@@ -267,13 +282,21 @@ void seguridad(String valuesJsonStr){
   deserializeJson(valuesDoc, valuesJsonStr);
   security = valuesDoc["value"].as<bool>();
 }
-//////////////////////////////////////////////BUZZERRR
-void alarma(String valuesJsonStr){
+//////////////////////////////////////////////Alarma Auto
+void handleAlarmaAuto(String valuesJsonStr){
   DynamicJsonDocument valuesDoc(256);
   deserializeJson(valuesDoc, valuesJsonStr);
-  bool activar = valuesDoc["value"].as<bool>();
+  alarmaAuto = valuesDoc["value"].as<bool>();
 }
-
+void prenderBuzzer(bool prender, int distancia){
+  if(prender && distancia<4){
+    digitalWrite(Buzzer, HIGH);
+    tone(Buzzer, 500, 500);
+  }else{
+    digitalWrite(Buzzer, LOW);
+    noTone(Buzzer);
+  }
+}
 
 
 

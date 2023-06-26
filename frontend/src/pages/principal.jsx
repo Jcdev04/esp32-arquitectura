@@ -74,9 +74,9 @@ function Principal() {
         </div>
 
         <div className="mapa__inferior">
-          <div className="mapa__camara">
+          <Link to="/monitorear" className="mapa__camara">
             <img src={camara} alt="camara" />
-          </div>
+          </Link>
         </div>
       </section>
 
@@ -114,9 +114,9 @@ function Principal() {
         </div>
 
         <div className="mapa__inferior">
-          <div className="mapa__camara">
+          <Link to="/monitorear" className="mapa__camara">
             <img src={camara} alt="camara" className="mapa__img" />
-          </div>
+          </Link>
         </div>
       </section>
     </>

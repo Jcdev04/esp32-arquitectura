@@ -10,6 +10,7 @@ import Habitacion from "./pages/ambientes/habitacion";
 import Bath from "./pages/ambientes/bath";
 import Sala from "./pages/ambientes/sala";
 import CocinaComedor from "./pages/ambientes/cocina-comedor";
+import Monitorear from "./pages/ambientes/monitorear";
 function App() {
   const [isConnected, setIsConnected] = useState(socket.connected);
   const [fooEvents, setFooEvents] = useState([]);
@@ -81,6 +82,7 @@ function App() {
                 />
               }
             />
+            <Route path="/monitorear" element={<Monitorear />} />
           </Route>
         </Routes>
       </BrowserRouter>

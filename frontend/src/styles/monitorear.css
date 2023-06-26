@@ -1,0 +1,31 @@
+.container_videoconference {
+  height: 100vh;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.subcontainer_videoconference {
+  width: 100%;
+  max-width: 850px;
+}
+.buttons__containervc {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+.videoconference {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  display: block;
+}
+.plantilla_video {
+  width: 100%;
+  background-color: black;
+  max-width: 100%;
+  display: block;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio (9 / 16 * 100) */
+}
